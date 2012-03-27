@@ -31,7 +31,7 @@ function prompt_makkhdyn_setup {
   zstyle ':omz:plugin:git:prompt' branch '%b'
   zstyle ':omz:plugin:git:prompt' deleted '-'
   zstyle ':omz:plugin:git:prompt' modified '*'
-  zstyle ':omz:plugin:git:prompt' renamed '➜'
+  zstyle ':omz:plugin:git:prompt' renamed '^'
   zstyle ':omz:plugin:git:prompt' commit '(%.7c...)'
   zstyle ':omz:plugin:git:prompt' stashed '\$'
   zstyle ':omz:plugin:git:prompt' unmerged '!'
