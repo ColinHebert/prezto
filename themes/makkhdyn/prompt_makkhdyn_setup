@@ -23,7 +23,7 @@ function prompt_makkhdyn_setup {
 
   zstyle ':omz:prompt:vi' insert ''
   zstyle ':omz:prompt:vi' command '%F{yellow}❮%f%B%F{red}❮%f%b%F{red}❮%f'
-  zstyle ':omz:completion' indicator '%B%F{red}...%f%b'
+  zstyle ':omz:editor' completing '%B%F{red}...%f%b'
   zstyle ':omz:plugin:git:prompt' action '|%s'
   zstyle ':omz:plugin:git:prompt' added '+'
   zstyle ':omz:plugin:git:prompt' ahead '>'
