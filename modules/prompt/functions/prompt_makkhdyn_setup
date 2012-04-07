@@ -1,0 +1,51 @@
+#
+# A theme heavily using git_prompt_info.
+#
+# Authors:
+#   Colin Hebert <hebert.colin@gmail.com>
+#
+
+function prompt_makkhdyn_precmd {
+  setopt LOCAL_OPTIONS
+  unsetopt XTRACE KSH_ARRAYS
+
+  if (( $+functions[git-info] )); then
+    git-info
+  fi
+}
+
+function prompt_makkhdyn_setup {
+  setopt LOCAL_OPTIONS
+  unsetopt XTRACE KSH_ARRAYS
+  prompt_opts=(cr percent subst)
+
+  autoload -Uz add-zsh-hook
+  add-zsh-hook precmd prompt_makkhdyn_precmd
+
+  zstyle ':omz:module:editor' completing '%B%F{red}...%f%b'
+  zstyle ':omz:module:editor:keymap' primary ''
+  zstyle ':omz:module:editor:keymap' alternate '%F{yellow}❮%f%B%F{red}❮%f%b%F{red}❮%f'
+  zstyle ':omz:module:git' action '|%s'
+  zstyle ':omz:module:git' added '+'
+  zstyle ':omz:module:git' ahead '>'
+  zstyle ':omz:module:git' behind '<'
+  zstyle ':omz:module:git' branch '%b'
+  zstyle ':omz:module:git' commit '(%.7c...)'
+  zstyle ':omz:module:git' deleted '-'
+  zstyle ':omz:module:git' modified '*'
+  zstyle ':omz:module:git' position '(%p)'
+  zstyle ':omz:module:git' renamed '^'
+  zstyle ':omz:module:git' remote '@'
+  zstyle ':omz:module:git' stashed '\$'
+  zstyle ':omz:module:git' unmerged '!'
+  zstyle ':omz:module:git' untracked '%%%'
+  zstyle ':omz:module:git' info \
+      prompt '%F{blue}($(coalesce "%b" "%p" "%c")%m%a%d%r%S%u%U$([[ -n "%R" ]] && coalesce "%B%A" "=")%s)%f'
+
+  PROMPT='%F{green}%~${(e)git_info[prompt]} %B%F{red}%(!.#.$)%b%f '
+  RPROMPT='${editor_keymap[keymap]}%(?::%F{red}⏎%f)'
+  SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
+}
+
+prompt_makkhdyn_setup "$@"
+
