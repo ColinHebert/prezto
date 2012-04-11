@@ -35,12 +35,12 @@ function prompt_makkhdyn_setup {
   zstyle ':omz:module:git' modified '*'
   zstyle ':omz:module:git' position '(%p)'
   zstyle ':omz:module:git' renamed '^'
-  zstyle ':omz:module:git' remote '@'
+  zstyle ':omz:module:git' remote '='
   zstyle ':omz:module:git' stashed '\$'
   zstyle ':omz:module:git' unmerged '!'
   zstyle ':omz:module:git' untracked '%%%'
   zstyle ':omz:module:git' info \
-      prompt '%F{blue}($(coalesce "%b" "%p" "%c")%m%a%d%r%S%u%U$([[ -n "%R" ]] && coalesce "%B%A" "=")%s)%f'
+      prompt '%F{blue}($(coalesce "%b" "%p" "%c")%m%a%d%r%S%u%U$(coalesce "%B%A" "%R")%s)%f'
 
   PROMPT='%F{green}%~${(e)git_info[prompt]} %B%F{red}%(!.#.$)%b%f '
   RPROMPT='${editor_keymap[keymap]}%(?::%F{red}⏎%f)'
