@@ -5,10 +5,15 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
-# Checks boolean variable for "true".
+# Checks a boolean variable for "true".
 # Case insensitive: "1", "y", "yes", "t", "true", "o", and "on".
 function is-true {
   [[ -n "$1" && "$1" == (1|[Yy]([Ee][Ss]|)|[Tt]([Rr][Uu][Ee]|)|[Oo]([Nn]|)) ]]
+}
+
+# Checks a name if it is a command, function, or alias.
+function is-callable {
+  (( $+commands[$1] )) || (( $+functions[$1] )) || (( $+aliases[$1] ))
 }
 
 # Prints the first non-empty string in the arguments array.
@@ -28,6 +33,7 @@ function autoloadable {
 # Loads Oh My Zsh modules.
 function omodload {
   local omodule
+  local ofunction
 
   # Extended globbing is needed for autoloading of module functions.
   setopt EXTENDED_GLOB
@@ -36,10 +42,11 @@ function omodload {
   fpath=(${argv:+${OMZ}/modules/${^argv}/functions(/FN)} $fpath)
 
   # Load Oh My Zsh functions.
-  for ofunction in $OMZ/modules/**/functions/^([_.]*|prompt_*_setup)(.N:t); do
+  for ofunction in \
+    $OMZ/modules/${^argv}/functions/^([_.]*|prompt_*_setup|README*)(.N:t)
+  do
     autoload -Uz "$ofunction"
   done
-  unset ofunction
 
   # Extended globbing is no longer needed.
   unsetopt EXTENDED_GLOB
