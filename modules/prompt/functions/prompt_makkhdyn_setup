@@ -42,7 +42,7 @@ function prompt_makkhdyn_setup {
   zstyle ':omz:module:git' info \
       prompt '%F{blue}($(coalesce "%b" "%p" "%c")%m%a%d%r%S%u%U$(coalesce "%B%A" "%R")%s)%f'
 
-  PROMPT='%F{green}%~${(e)git_info[prompt]} %B%F{red}%(!.#.$)%b%f '
+  PROMPT='%F{green}%~${git_info:+${(e)git_info[prompt]}} %B%F{red}%(!.#.$)%b%f '
   RPROMPT='${editor_keymap[keymap]}${editor_info[overwrite]}%(?::%F{red}⏎%f)'
   SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
 }
