@@ -23,7 +23,7 @@ function prompt_makkhdyn_setup {
   add-zsh-hook precmd prompt_makkhdyn_precmd
 
   zstyle ':omz:module:editor' completing '%B%F{red}...%f%b'
-  zstyle ':omz:module:editor:keymap' primary ''
+  zstyle ':omz:module:editor:keymap:primary' overwrite ' %F{red}♺%f'
   zstyle ':omz:module:editor:keymap' alternate '%F{yellow}❮%f%B%F{red}❮%f%b%F{red}❮%f'
   zstyle ':omz:module:git' action '|%s'
   zstyle ':omz:module:git' added '+'
@@ -43,7 +43,7 @@ function prompt_makkhdyn_setup {
       prompt '%F{blue}($(coalesce "%b" "%p" "%c")%m%a%d%r%S%u%U$(coalesce "%B%A" "%R")%s)%f'
 
   PROMPT='%F{green}%~${(e)git_info[prompt]} %B%F{red}%(!.#.$)%b%f '
-  RPROMPT='${editor_keymap[keymap]}%(?::%F{red}⏎%f)'
+  RPROMPT='${editor_keymap[keymap]}${editor_info[overwrite]}%(?::%F{red}⏎%f)'
   SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
 }
 
