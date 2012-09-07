@@ -13,6 +13,16 @@ if ! autoload -Uz is-at-least || ! is-at-least "$min_zsh_version"; then
 fi
 unset min_zsh_version
 
+# Source the Prezto configuration file.
+if [[ -s "${ZDOTDIR:-$HOME}/.zpreztorc" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zpreztorc"
+fi
+
+# Source the Prezto configuration file.
+if [[ -s "${ZDOTDIR:-$HOME}/.zpreztorc" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zpreztorc"
+fi
+
 # Disable color and theme in dumb terminals.
 if [[ "$TERM" == 'dumb' ]]; then
   zstyle ':prezto:*:*' color 'no'
@@ -32,7 +42,7 @@ unset zfunction{s,}
 # Source files (the order matters).
 source "${0:h}/helper.zsh"
 
-# Source Prezto modules defined in ~/.zshrc.
+# Load Prezto modules.
 zstyle -a ':prezto:load' pmodule 'pmodules'
 pmodload "$pmodules[@]"
 unset pmodules
