@@ -4,8 +4,7 @@ Completion
 Loads and configures tab completion and provides additional completions from
 the [zsh-completions][1] project.
 
-This module must be loaded **after** the *alias* module but **before** the
-*utility* module.
+This module must be loaded **after** the *utility* module.
 
 Contributors
 ------------
@@ -21,5 +20,5 @@ Authors
   - [Sorin Ionescu](https://github.com/sorin-ionescu)
 
 [1]: https://github.com/zsh-users/zsh-completions
-[2]: https://github.com/sorin-ionescu/oh-my-zsh/issues
+[2]: https://github.com/sorin-ionescu/prezto/issues
 

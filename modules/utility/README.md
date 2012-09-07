@@ -14,19 +14,19 @@ commands.
 To disable `ls` color, add the following line to *zshrc*; when coloring is
 disabled, type indicators (\*, /, =>, @, =, |, %) will be appended to entries.
 
-    zstyle ':omz:module:utility:ls' color 'no'
+    zstyle ':prezto:module:utility:ls' color 'no'
 
 To disable `diff` highlighting, add the following line to *zshrc*:
 
-    zstyle ':omz:module:utility:diff' color 'no'
+    zstyle ':prezto:module:utility:diff' color 'no'
 
 To disable `wdiff` highlighting, add the following line to *zshrc*:
 
-    zstyle ':omz:module:utility:wdiff' color 'no'
+    zstyle ':prezto:module:utility:wdiff' color 'no'
 
 To disable `make` highlighting, add the following line to *zshrc*:
 
-    zstyle ':omz:module:utility:make' color 'no'
+    zstyle ':prezto:module:utility:make' color 'no'
 
 Aliases
 -------
@@ -47,15 +47,18 @@ Aliases
   - `mv`
   - `mysql`
   - `rm`
-  - `scp`
 
 ### Disabled File Globbing
 
   - `fc`
   - `find`
+  - `ftp`
   - `history`
   - `locate`
   - `rake`
+  - `rsync`
+  - `scp`
+  - `sftp`
 
 ### General
 
@@ -80,7 +83,7 @@ Aliases
   - `ll` lists human readable sizes.
   - `lr` lists human readable sizes, recursively.
   - `la` lists human readable sizes, hidden files.
-  - `lp` lists human readable sizes, hidden files through pager.
+  - `lm` lists human readable sizes, hidden files through pager.
   - `lx` lists sorted by extension (GNU only).
   - `lk` lists sorted by size, largest last.
   - `lt` lists sorted by date, most recent last.
@@ -137,6 +140,11 @@ Functions
 
   - `psu` displays user owned processes status.
 
+### Search and Replace
+
+  - `prep` provides a grep-like pattern search.
+  - `psub` provides a sed-like pattern substitution.
+
 Authors
 -------
 
@@ -146,5 +154,5 @@ Authors
   - [Suraj N. Kurapati](https://github.com/sunaku)
   - [Sorin Ionescu](https://github.com/sorin-ionescu)
 
-[1]: https://github.com/sorin-ionescu/oh-my-zsh/issues
+[1]: https://github.com/sorin-ionescu/prezto/issues
 

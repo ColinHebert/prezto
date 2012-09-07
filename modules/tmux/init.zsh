@@ -6,13 +6,17 @@
 #   Colin Hebert <hebert.colin@gmail.com>
 #
 
-# Aliases
-alias ta="tmux attach-session"
-alias tl="tmux list-sessions"
+# Return if requirements are not found.
+if (( ! $+commands[tmux] )); then
+  return 1
+fi
 
+#
 # Auto Start
-if [[ -z "$TMUX" ]] && zstyle -t ':omz:module:tmux' auto-start; then
-  tmux_session='#OMZ'
+#
+
+if [[ -z "$TMUX" ]] && zstyle -t ':prezto:module:tmux' auto-start; then
+  tmux_session='#Prezto'
 
   if ! tmux has-session -t "$tmux_session" 2> /dev/null; then
     # Disable the destruction of unattached sessions globally.
@@ -32,3 +36,9 @@ if [[ -z "$TMUX" ]] && zstyle -t ':omz:module:tmux' auto-start; then
   exec tmux new-session -t "$tmux_session"
 fi
 
+#
+# Aliases
+#
+
+alias tmuxa='tmux attach-session'
+alias tmuxl='tmux list-sessions'

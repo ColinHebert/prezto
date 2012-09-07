@@ -5,13 +5,16 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
-# Aliases
-alias sl="screen -list"
-alias sn="screen -U -S"
-alias sr="screen -a -A -U -D -R"
+# Return if requirements are not found.
+if (( ! $+commands[screen] )); then
+  return 1
+fi
 
+#
 # Auto Start
-if [[ -z "$STY" ]] && zstyle -t ':omz:module:screen' auto-start; then
+#
+
+if [[ -z "$STY" ]] && zstyle -t ':prezto:module:screen' auto-start; then
   session="$(
     screen -list 2> /dev/null \
       | sed '1d;$d' \
@@ -24,4 +27,13 @@ if [[ -z "$STY" ]] && zstyle -t ':omz:module:screen' auto-start; then
     exec screen -a -A -U -D -R -m "$SHELL" -l
   fi
 fi
+
+#
+# Aliases
+#
+
+alias scr='screen'
+alias scrl='screen -list'
+alias scrn='screen -U -S'
+alias scrr='screen -a -A -U -D -R'
 

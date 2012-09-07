@@ -30,46 +30,62 @@ function autoloadable {
   ( unfunction $1 ; autoload -U +X $1 ) &> /dev/null
 }
 
-# Loads Oh My Zsh modules.
-function omodload {
-  local -a omodules
-  local omodule
+# Loads Prezto modules.
+function pmodload {
+  local -a pmodules
+  local pmodule
+  local pfunction_glob='^([_.]*|prompt_*_setup|README*)(.N:t)'
 
   # $argv is overridden in the anonymous function.
-  omodules=("$argv[@]")
+  pmodules=("$argv[@]")
+
+  # Add functions to $fpath.
+  fpath=(${pmodules:+${PREZTO}/modules/${^pmodules}/functions(/FN)} $fpath)
 
   function {
-    local ofunction
+    local pfunction
 
     # Extended globbing is needed for listing autoloadable function directories.
     setopt LOCAL_OPTIONS EXTENDED_GLOB
 
-    # Add functions to fpath.
-    fpath=(${omodules:+${OMZ}/modules/${^omodules}/functions(/FN)} $fpath)
-
-    # Load Oh My Zsh functions.
-    for ofunction in \
-      $OMZ/modules/${^omodules}/functions/^([_.]*|prompt_*_setup|README*)(.N:t)
-    do
-      autoload -Uz "$ofunction"
+    # Load Prezto functions.
+    for pfunction in $PREZTO/modules/${^pmodules}/functions/$~pfunction_glob; do
+      autoload -Uz "$pfunction"
     done
   }
 
-  for omodule in "$omodules[@]"; do
-    if zstyle -t ":omz:module:$omodule" loaded; then
+  # Load Prezto modules.
+  for pmodule in "$pmodules[@]"; do
+    if zstyle -t ":prezto:module:$pmodule" loaded; then
       continue
-    elif [[ ! -d "$OMZ/modules/$omodule" ]]; then
-      print "$0: no such module: $omodule" >&2
+    elif [[ ! -d "$PREZTO/modules/$pmodule" ]]; then
+      print "$0: no such module: $pmodule" >&2
       continue
     else
-      if [[ -s "$OMZ/modules/$omodule/init.zsh" ]]; then
-        source "$OMZ/modules/$omodule/init.zsh"
+      if [[ -s "$PREZTO/modules/$pmodule/init.zsh" ]]; then
+        source "$PREZTO/modules/$pmodule/init.zsh"
       fi
 
       if (( $? == 0 )); then
-        zstyle ":omz:module:$omodule" loaded 'yes'
+        zstyle ":prezto:module:$pmodule" loaded 'yes'
       else
-        zstyle ":omz:module:$omodule" loaded 'no'
+        # Remove the $fpath entry.
+        fpath[(r)$PREZTO/modules/${pmodule}/functions]=()
+
+        function {
+          local pfunction
+
+          # Extended globbing is needed for listing autoloadable function
+          # directories.
+          setopt LOCAL_OPTIONS EXTENDED_GLOB
+
+          # Unload Prezto functions.
+          for pfunction in $PREZTO/modules/$pmodule/functions/$~pfunction_glob; do
+            unfunction "$pfunction"
+          done
+        }
+
+        zstyle ":prezto:module:$pmodule" loaded 'no'
       fi
     fi
   done

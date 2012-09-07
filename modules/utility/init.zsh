@@ -8,12 +8,14 @@
 #
 
 # Load dependencies.
-omodload 'spectrum'
+pmodload 'spectrum'
 
 # Correct commands.
 setopt CORRECT
 
+#
 # Aliases
+#
 
 # Disable correction.
 alias ack='nocorrect ack'
@@ -30,20 +32,23 @@ alias mkdir='nocorrect mkdir'
 alias mv='nocorrect mv'
 alias mysql='nocorrect mysql'
 alias rm='nocorrect rm'
-alias scp='nocorrect scp'
 
 # Disable globbing.
 alias fc='noglob fc'
 alias find='noglob find'
+alias ftp='noglob ftp'
 alias history='noglob history'
 alias locate='noglob locate'
 alias rake='noglob rake'
+alias rsync='noglob rsync'
+alias scp='noglob scp'
+alias sftp='noglob sftp'
 
 # Define general aliases.
 alias _='sudo'
 alias b='${(z)BROWSER}'
 alias cp="${aliases[cp]:-cp} -i"
-alias e='${(z)EDITOR}'
+alias e='${(z)VISUAL:-${(z)EDITOR}}'
 alias ln="${aliases[ln]:-ln} -i"
 alias mkdir="${aliases[mkdir]:-mkdir} -p"
 alias mv="${aliases[mv]:-mv} -i"
@@ -58,7 +63,7 @@ if is-callable 'dircolors'; then
   # GNU Core Utilities
   alias ls='ls --group-directories-first'
 
-  if zstyle -t ':omz:module:utility:ls' color; then
+  if zstyle -t ':prezto:module:utility:ls' color; then
     if [[ -s "$HOME/.dir_colors" ]]; then
       eval "$(dircolors "$HOME/.dir_colors")"
     else
@@ -70,7 +75,7 @@ if is-callable 'dircolors'; then
   fi
 else
   # BSD Core Utilities
-  if zstyle -t ':omz:module:utility:ls' color; then
+  if zstyle -t ':prezto:module:utility:ls' color; then
     export LSCOLORS="exfxcxdxbxegedabagacad"
     alias ls="ls -G"
   else
@@ -82,7 +87,7 @@ alias l='ls -1A'         # Lists in one column, hidden files.
 alias ll='ls -lh'        # Lists human readable sizes.
 alias lr='ll -R'         # Lists human readable sizes, recursively.
 alias la='ll -A'         # Lists human readable sizes, hidden files.
-alias lp='la | "$PAGER"' # Lists human readable sizes, hidden files through pager.
+alias lm='la | "$PAGER"' # Lists human readable sizes, hidden files through pager.
 alias lx='ll -XB'        # Lists sorted by extension (GNU only).
 alias lk='ll -Sr'        # Lists sorted by size, largest last.
 alias lt='ll -tr'        # Lists sorted by date, most recent last.
@@ -128,7 +133,9 @@ fi
 # Serves a directory via HTTP.
 alias http-serve='python -m SimpleHTTPServer'
 
+#
 # Functions
+#
 
 # Makes a directory and changes to it.
 function mkdcd {
