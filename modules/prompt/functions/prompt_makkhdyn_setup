@@ -22,10 +22,24 @@ function prompt_makkhdyn_setup {
   autoload -Uz add-zsh-hook
   add-zsh-hook precmd prompt_makkhdyn_precmd
 
+  prompt_makkhdyn_setup_git
+
   zstyle ':prezto:module:editor' completing '%B%F{red}...%f%b'
   zstyle ':prezto:module:editor:keymap:primary' overwrite ' %F{red}♺%f'
   zstyle ':prezto:module:editor:keymap' alternate ' %F{yellow}❮%f%B%F{red}❮%f%b%F{red}❮%f'
 
+  PROMPT='%F{green}%~${git_info:+${(e)git_info[prompt]}} %B%F{red}%(!.#.$)%b%f '
+  RPROMPT='%1(j.%F{blue}[Jobs: %B%j%b%f%F{blue}]%f.)${editor_info[keymap]}${editor_info[overwrite]}%(?:: %F{red}⏎%f)'
+  SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
+}
+
+# Set up the git_info configuration
+# Only one prompt is created (git_info[prompt])
+# Display the branch name if available, otherwise the position, otherwise the
+#   current commit id
+# Display the difference with remote ('<' and/or '>') or '=' if the branch is
+#   up to date
+function prompt_makkhdyn_setup_git {
   # %s - Special action name (am, merge, rebase).
   zstyle ':prezto:module:git' action '|%s'
   # %a - Indicator to notify of added files.
@@ -58,11 +72,6 @@ function prompt_makkhdyn_setup {
   # Prompts.
   zstyle ':prezto:module:git' info \
       prompt '%F{blue}($(coalesce "%b" "%p" "%c")%m%a%d%r%S%u%U$(coalesce "%B%A" "%R")%s)%f'
-
-  PROMPT='%F{green}%~${git_info:+${(e)git_info[prompt]}} %B%F{red}%(!.#.$)%b%f '
-  RPROMPT='%1(j.%F{blue}[Jobs: %B%j%b%f%F{blue}]%f.)${editor_info[keymap]}${editor_info[overwrite]}%(?:: %F{red}⏎%f)'
-  SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
 }
 
 prompt_makkhdyn_setup "$@"
-
