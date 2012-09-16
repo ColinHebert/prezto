@@ -25,20 +25,37 @@ function prompt_makkhdyn_setup {
   zstyle ':prezto:module:editor' completing '%B%F{red}...%f%b'
   zstyle ':prezto:module:editor:keymap:primary' overwrite ' %F{red}♺%f'
   zstyle ':prezto:module:editor:keymap' alternate ' %F{yellow}❮%f%B%F{red}❮%f%b%F{red}❮%f'
+
+  # %s - Special action name (am, merge, rebase).
   zstyle ':prezto:module:git' action '|%s'
+  # %a - Indicator to notify of added files.
   zstyle ':prezto:module:git' added '+'
+  # %A - Indicator to notify of ahead branch.
   zstyle ':prezto:module:git' ahead '>'
+  # %B - Indicator to notify of behind branch.
   zstyle ':prezto:module:git' behind '<'
+  # %b - Branch name.
   zstyle ':prezto:module:git' branch '%b'
+  # %c - SHA-1 hash.
   zstyle ':prezto:module:git' commit '(%.7c...)'
+  # %d - Indicator to notify of deleted files.
   zstyle ':prezto:module:git' deleted '-'
+  # %m - Indicator to notify of modified files.
   zstyle ':prezto:module:git' modified '*'
+  # %p - HEAD position in relation to the nearest branch, remote, tag.
   zstyle ':prezto:module:git' position '(%p)'
-  zstyle ':prezto:module:git' renamed '^'
+  # %R - Remote name.
   zstyle ':prezto:module:git' remote '='
+  # %r - Indicator to notify of renamed files.
+  zstyle ':prezto:module:git' renamed '^'
+  # %S - Indicator to notify of stashed files.
   zstyle ':prezto:module:git' stashed '\$'
+  # %U - Indicator to notify of unmerged files.
   zstyle ':prezto:module:git' unmerged '!'
+  # %u - Indicator to notify of untracked files.
   zstyle ':prezto:module:git' untracked '%%%'
+
+  # Prompts.
   zstyle ':prezto:module:git' info \
       prompt '%F{blue}($(coalesce "%b" "%p" "%c")%m%a%d%r%S%u%U$(coalesce "%B%A" "%R")%s)%f'
 
