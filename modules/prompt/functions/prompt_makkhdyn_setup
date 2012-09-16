@@ -28,8 +28,26 @@ function prompt_makkhdyn_setup {
   zstyle ':prezto:module:editor:keymap:primary' overwrite ' %F{red}♺%f'
   zstyle ':prezto:module:editor:keymap' alternate ' %F{yellow}❮%f%B%F{red}❮%f%b%F{red}❮%f'
 
-  PROMPT='%F{green}%~${git_info:+${(e)git_info[prompt]}} %B%F{red}%(!.#.$)%b%f '
-  RPROMPT='%1(j.%F{blue}[Jobs: %B%j%b%f%F{blue}]%f.)${editor_info[keymap]}${editor_info[overwrite]}%(?:: %F{red}⏎%f)'
+  PROMPT=''
+  # The relative path '~/myFolder'
+  PROMPT+='%F{green}%~'
+  # The git prompt (see prompt_makkhdyn_setup_git)
+  PROMPT+='${git_info:+${(e)git_info[prompt]}}'
+  # '#' if the current user is root, '$' otherwise
+  PROMPT+=' %B%F{red}%(!.#.$)'
+  # Reset the colors and add a space
+  PROMPT+='%b%f '
+
+  RPROMPT=''
+  # The number of jobs (if there is one job) '[Jobs: 42]'
+  RPROMPT+='%1(j.%F{blue}[Jobs: %B%j%b%f%F{blue}]%f.)'
+  # The editor keymap (when vim mode is enabled) '❮❮❮'
+  RPROMPT+='${editor_info[keymap]}'
+  # The editor override mode '♺'
+  RPROMPT+='${editor_info[overwrite]}'
+  # Last command exit code ('⏎' if fail)
+  RPROMPT+='%(?:: %F{red}%B⏎%f)'
+
   SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
 }
 
