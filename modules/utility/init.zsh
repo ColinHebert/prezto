@@ -8,7 +8,7 @@
 #
 
 # Load dependencies.
-pmodload 'spectrum'
+pmodload 'helper' 'spectrum'
 
 # Correct commands.
 setopt CORRECT
@@ -69,6 +69,7 @@ if is-callable 'dircolors'; then
     else
       eval "$(dircolors)"
     fi
+
     alias ls="$aliases[ls] --color=auto"
   else
     alias ls="$aliases[ls] -F"
@@ -76,8 +77,13 @@ if is-callable 'dircolors'; then
 else
   # BSD Core Utilities
   if zstyle -t ':prezto:module:utility:ls' color; then
-    export LSCOLORS="exfxcxdxbxegedabagacad"
-    alias ls="ls -G"
+    # Define colors for BSD ls.
+    export LSCOLORS='exfxcxdxbxGxDxabagacad'
+
+    # Define colors for the completion system.
+    export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=36;01:cd=33;01:su=31;40;07:sg=36;40;07:tw=32;40;07:ow=33;40;07:'
+
+    alias ls='ls -G'
   else
     alias ls='ls -F'
   fi
@@ -169,6 +175,6 @@ function find-exec {
 
 # Displays user owned processes status.
 function psu {
-  ps -{U,u}" ${1:-$USER}" -o 'pid,%cpu,%mem,command' "${(@)argv[2,-1]}"
+  ps -U "${1:-$USER}" -o 'pid,%cpu,%mem,command' "${(@)argv[2,-1]}"
 }
 

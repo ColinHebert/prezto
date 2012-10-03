@@ -16,6 +16,9 @@ if (( ! $+commands[ssh-agent] )); then
   return 1
 fi
 
+# Load dependencies.
+pmodload 'helper'
+
 _ssh_agent_env="${HOME}/.ssh/environment-${HOST}"
 _ssh_agent_forwarding=
 

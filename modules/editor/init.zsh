@@ -18,27 +18,27 @@
 #   To indicate when the editor is in the primary keymap (emacs or viins), add
 #   the following to your theme prompt setup function.
 #
-#     zstyle ':prezto:module:editor:keymap' primary '>>>'
+#     zstyle ':prezto:module:editor:info:keymap:primary' format '>>>'
 #
 #   To indicate when the editor is in the primary keymap (emacs or viins) insert
 #   mode, add the following to your theme prompt setup function.
 #
-#     zstyle ':prezto:module:editor:keymap:primary' insert 'I'
+#     zstyle ':prezto:module:editor:info:keymap:primary:insert' format 'I'
 #
 #   To indicate when the editor is in the primary keymap (emacs or viins)
 #   overwrite mode, add the following to your theme prompt setup function.
 #
-#     zstyle ':prezto:module:editor:keymap:primary' overwrite 'O'
+#     zstyle ':prezto:module:editor:info:keymap:primary:overwrite' format 'O'
 #
 #   To indicate when the editor is in the alternate keymap (vicmd), add the
 #   following to your theme prompt setup function.
 #
-#     zstyle ':prezto:module:editor:keymap' alternate '<<<'
+#     zstyle ':prezto:module:editor:info:keymap:alternate' format '<<<'
 #
 #   To indicate when the editor is completing, add the following to your theme
 #   prompt setup function.
 #
-#     zstyle ':prezto:module:editor' completing '...'
+#     zstyle ':prezto:module:editor:info:completing' format '...'
 #
 
 # Return if requirements are not found.
@@ -52,10 +52,6 @@ fi
 
 # Beep on error in line editor.
 setopt BEEP
-
-# Allow command line editing in an external editor.
-autoload -Uz edit-command-line
-zle -N edit-command-line
 
 #
 # Variables
@@ -95,35 +91,45 @@ key_info=(
 )
 
 # Do not bind any keys if there are empty values in $key_info.
-for key in "$key_info[@]"; do
-  if [[ -z "$key" ]]; then
+for key in "${(k)key_info[@]}"; do
+  if [[ -z "$key_info[$key]" ]]; then
     print "prezto: one or more keys are non-bindable" >&2
+    unset key{,_info}
     return 1
   fi
 done
 
 #
+# External Editor
+#
+
+# Allow command line editing in an external editor.
+autoload -Uz edit-command-line
+zle -N edit-command-line
+
+#
 # Functions
 #
 
-# Displays editor information.
+# Exposes information about the Zsh Line Editor via the $editor_info associative
+# array.
 function editor-info {
   # Clean up previous $editor_info.
   unset editor_info
   typeset -gA editor_info
 
   if [[ "$KEYMAP" == 'vicmd' ]]; then
-    zstyle -s ':prezto:module:editor:keymap' alternate 'REPLY'
+    zstyle -s ':prezto:module:editor:info:keymap:alternate' format 'REPLY'
     editor_info[keymap]="$REPLY"
   else
-    zstyle -s ':prezto:module:editor:keymap' primary 'REPLY'
+    zstyle -s ':prezto:module:editor:info:keymap:primary' format 'REPLY'
     editor_info[keymap]="$REPLY"
 
     if [[ "$ZLE_STATE" == *overwrite* ]]; then
-      zstyle -s ':prezto:module:editor:keymap:primary' overwrite 'REPLY'
+      zstyle -s ':prezto:module:editor:info:keymap:primary:overwrite' format 'REPLY'
       editor_info[overwrite]="$REPLY"
     else
-      zstyle -s ':prezto:module:editor:keymap:primary' insert 'REPLY'
+      zstyle -s ':prezto:module:editor:info:keymap:primary:insert' format 'REPLY'
       editor_info[overwrite]="$REPLY"
     fi
   fi
@@ -135,23 +141,8 @@ function editor-info {
 }
 zle -N editor-info
 
-# Ensures that $terminfo values are valid and updates editor information when
-# the keymap changes.
+# Updates editor information when the keymap changes.
 function zle-keymap-select zle-line-init zle-line-finish {
-  # The terminal must be in application mode when ZLE is active for $terminfo
-  # values to be valid.
-  case "$0" in
-    (zle-line-init)
-      # Enable terminal application mode.
-      echoti smkx
-    ;;
-    (zle-line-finish)
-      # Disable terminal application mode.
-      echoti rmkx
-    ;;
-  esac
-
-  # Update editor information.
   zle editor-info
 }
 zle -N zle-keymap-select
@@ -200,7 +191,7 @@ zle -N expand-dot-to-parent-directory-path
 # Displays an indicator when completing.
 function expand-or-complete-with-indicator {
   local indicator
-  zstyle -s ':prezto:module:editor' completing 'indicator'
+  zstyle -s ':prezto:module:editor:info:completing' format 'indicator'
   print -Pn "$indicator"
   zle expand-or-complete
   zle redisplay

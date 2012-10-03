@@ -5,6 +5,19 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
+#
+# Settings
+#
+#
+
+# Status
+zstyle -s ':prezto:module:git:status:ignore' submodules '_git_status_ignore_submodules' \
+  || _git_status_ignore_submodules='none'
+
+#
+# Aliases
+#
+
 # Git
 alias g='git'
 
@@ -49,6 +62,14 @@ alias gfc='git clone'
 alias gfm='git pull'
 alias gfr='git pull --rebase'
 
+# Grep (g)
+alias gg='git grep'
+alias ggi='git grep --ignore-case'
+alias ggl='git grep --files-with-matches'
+alias ggL='git grep --files-without-matches'
+alias ggv='git grep --invert-match'
+alias ggw='git grep --word-regexp'
+
 # Index (i)
 alias gia='git add'
 alias giA='git add --patch'
@@ -59,7 +80,6 @@ alias gir='git reset'
 alias giR='git reset --keep'
 alias gix='git rm -r --cached'
 alias giX='git rm -rf --cached'
-alias gig='git grep --cached'
 
 # Konflict (k)
 alias gkl='git status | sed -n "s/^.*both [a-z]*ed: *//p"'
@@ -96,8 +116,8 @@ alias gpf='git push --force'
 alias gpa='git push --all'
 alias gpA='git push --all && git push --tags'
 alias gpt='git push --tags'
-alias gpc='git push --set-upstream origin "$(git-branch-current)"'
-alias gpp='git pull origin "$(git-branch-current)" && git push origin "$(git-branch-current)"'
+alias gpc='git push --set-upstream origin "$(git-branch-current 2> /dev/null)"'
+alias gpp='git pull origin "$(git-branch-current 2> /dev/null)" && git push origin "$(git-branch-current 2> /dev/null)"'
 
 # Rebase (r)
 alias gr='git rebase'
@@ -115,13 +135,13 @@ alias gRm='git remote rename'
 alias gRu='git remote update'
 alias gRc='git remote prune'
 alias gRs='git remote show'
-alias gRb='git-hub'
+alias gRb='git-hub-browse'
 
 # Stash (s)
 alias gs='git stash'
 alias gsa='git stash apply'
-alias gsc='git-stash-clear-interactive'
 alias gsx='git stash drop'
+alias gsX='git-stash-clear-interactive'
 alias gsd='git-stash-dropped'
 alias gsl='git stash list'
 alias gsL='git stash show --patch --stat'
@@ -129,20 +149,23 @@ alias gsp='git stash pop'
 alias gsr='git-stash-recover'
 alias gss='git stash save --include-untracked'
 alias gsS='git stash save --patch --no-keep-index'
+alias gsw='git stash save --include-untracked --keep-index'
 
 # Submodule (S)
 alias gS='git submodule'
 alias gSa='git submodule add'
 alias gSf='git submodule foreach'
 alias gSi='git submodule init'
+alias gSI='git submodule update --init --recursive'
 alias gSl='git submodule status'
+alias gSm='git-submodule-move'
 alias gSs='git submodule sync'
-alias gSu='git submodule update --init --recursive'
-alias gSU='git submodule foreach git pull origin master'
+alias gSu='git submodule foreach git pull origin master'
+alias gSx='git-submodule-remove'
 
 # Working Copy (w)
-alias gws='git status --short'
-alias gwS='git status'
+alias gws='git status --ignore-submodules=${_git_status_ignore_submodules} --short'
+alias gwS='git status --ignore-submodules=${_git_status_ignore_submodules}'
 alias gwd='git diff --no-ext-diff'
 alias gwD='git diff --no-ext-diff --word-diff'
 alias gwr='git reset --soft'
@@ -151,5 +174,4 @@ alias gwc='git clean -n'
 alias gwC='git clean -f'
 alias gwx='git rm -r'
 alias gwX='git rm -rf'
-alias gwg='git grep'
 
