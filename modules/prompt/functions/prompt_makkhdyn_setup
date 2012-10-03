@@ -24,9 +24,9 @@ function prompt_makkhdyn_setup {
 
   prompt_makkhdyn_setup_git
 
-  zstyle ':prezto:module:editor' completing '%B%F{red}...%f%b'
-  zstyle ':prezto:module:editor:keymap:primary' overwrite ' %F{red}♺%f'
-  zstyle ':prezto:module:editor:keymap' alternate ' %F{yellow}❮%f%B%F{red}❮%f%b%F{red}❮%f'
+  zstyle ':prezto:module:editor:info:completing' format '%B%F{red}...%f%b'
+  zstyle ':prezto:module:editor:info:primary:overwrite' format ' %F{red}♺%f'
+  zstyle ':prezto:module:editor:info:alternate' format ' %F{yellow}❮%f%B%F{red}❮%f%b%F{red}❮%f'
 
   PROMPT=''
   # The hostname 'MyHost:'
