@@ -63,36 +63,36 @@ function prompt_makkhdyn_setup {
 #   up to date
 function prompt_makkhdyn_setup_git {
   # %s - Special action name (am, merge, rebase).
-  zstyle ':prezto:module:git' action '|%s'
+  zstyle ':prezto:module:git:info:action' format '|%s'
   # %a - Indicator to notify of added files.
-  zstyle ':prezto:module:git' added '+'
+  zstyle ':prezto:module:git:info:added' format '+'
   # %A - Indicator to notify of ahead branch.
-  zstyle ':prezto:module:git' ahead '>'
+  zstyle ':prezto:module:git:info:ahead' format '>'
   # %B - Indicator to notify of behind branch.
-  zstyle ':prezto:module:git' behind '<'
+  zstyle ':prezto:module:git:info:behind' format '<'
   # %b - Branch name.
-  zstyle ':prezto:module:git' branch '%b'
+  zstyle ':prezto:module:git:info:branch' format '%b'
   # %c - SHA-1 hash.
-  zstyle ':prezto:module:git' commit '(%.7c...)'
+  zstyle ':prezto:module:git:info:commit' format '(%.7c...)'
   # %d - Indicator to notify of deleted files.
-  zstyle ':prezto:module:git' deleted '-'
+  zstyle ':prezto:module:git:info:deleted' format '-'
   # %m - Indicator to notify of modified files.
-  zstyle ':prezto:module:git' modified '*'
+  zstyle ':prezto:module:git:info:modified' format '*'
   # %p - HEAD position in relation to the nearest branch, remote, tag.
-  zstyle ':prezto:module:git' position '(%p)'
+  zstyle ':prezto:module:git:info:position' format '(%p)'
   # %R - Remote name.
-  zstyle ':prezto:module:git' remote '='
+  zstyle ':prezto:module:git:info:remote' format '='
   # %r - Indicator to notify of renamed files.
-  zstyle ':prezto:module:git' renamed '^'
+  zstyle ':prezto:module:git:info:renamed' format '^'
   # %S - Indicator to notify of stashed files.
-  zstyle ':prezto:module:git' stashed '\$'
+  zstyle ':prezto:module:git:info:stashed' format '\$'
   # %U - Indicator to notify of unmerged files.
-  zstyle ':prezto:module:git' unmerged '!'
+  zstyle ':prezto:module:git:info:unmerged' format '!'
   # %u - Indicator to notify of untracked files.
-  zstyle ':prezto:module:git' untracked '%%%'
+  zstyle ':prezto:module:git:info:untracked' format '%%%'
 
   # Prompts.
-  zstyle ':prezto:module:git' info \
+  zstyle ':prezto:module:git:info:keys' format \
       prompt '%F{blue}($(coalesce "%b" "%p" "%c")%m%a%d%r%S%u%U$(coalesce "%B%A" "%R")%s)%f'
 }
 
