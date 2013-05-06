@@ -4,6 +4,7 @@
 # Authors:
 #   Colin Hebert <hebert.colin@gmail.com>
 #
+# Requires UTF-8
 
 function prompt_makkhdyn_precmd {
   setopt LOCAL_OPTIONS
