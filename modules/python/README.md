@@ -6,15 +6,15 @@ Enables local Python and local Python package installation.
 Local Python Installation
 -------------------------
 
-[pythonz][4] builds and installs multiple Python versions locally in the home
+[pyenv][4] builds and installs multiple Python versions locally in the home
 directory.
 
-This module prepends the pythonz directory to the path variable to enable the
-execution of `pythonz`.
+This module prepends the pyenv directory to the path variable to enable the
+execution of `pyenv`.
 
 ### Usage
 
-Install Python versions with `pythonz install` into *~/.pythonz/pythons*.
+Install Python versions with `pyenv install` into *~/.pyenv/versions*.
 
 Local Package Installation
 --------------------------
@@ -66,16 +66,6 @@ Aliases
 
   - `py` is short for `python`.
 
-### Pythonz
-
-  - `pyz` is short for `pythonz`.
-  - `pyzc` removes stale source folders and archives.
-  - `pyzi` installs Python versions.
-  - `pyzl` lists installed Python versions.
-  - `pyzL` lists available Python versions.
-  - `pyzu` updates itself to the latest version.
-  - `pyzx` uninstalls Python versions.
-
 Functions
 ---------
 
@@ -86,13 +76,13 @@ Theming
 -------
 
 To display the name of the current virtual enviroment in a prompt, define the
-following style in the `prompt_theme_setup` function.
+following style in the `prompt_name_setup` function.
 
     # %v - virtualenv name.
     zstyle ':prezto:module:python:info:virtualenv' format 'virtualenv:%v'
 
 Then add `$python_info[virtualenv]` to `$PROMPT` or `$RPROMPT` and call
-`python-info` in the `prompt_theme_preexec` hook function.
+`python-info` in the `prompt_name_preexec` hook function.
 
 Authors
 -------
@@ -105,6 +95,6 @@ Authors
 [1]: http://www.python.org/dev/peps/pep-0370/
 [2]: http://www.doughellmann.com/projects/virtualenvwrapper/
 [3]: http://pypi.python.org/pypi/virtualenv
-[4]: http://saghul.github.com/pythonz/
+[4]: https://github.com/yyuu/pyenv
 [5]: https://github.com/sorin-ionescu/prezto/issues
 
