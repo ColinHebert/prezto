@@ -37,7 +37,7 @@ function prompt_makkhdyn_setup {
   # The relative path '~/myFolder'
   PROMPT+='%F{green}%~'
   # The git prompt (see prompt_makkhdyn_setup_git)
-  PROMPT+='${git_info:+${(e)git_info[prompt]}}'
+  PROMPT+='%F{blue}${git_info:+(${(e)git_info[prompt]})}'
   # '#' if the current user is root, '$' otherwise
   PROMPT+=' %B%F{red}%(!.#.$)'
   # Reset the colors and add a space
@@ -94,7 +94,7 @@ function prompt_makkhdyn_setup_git {
 
   # Prompts.
   zstyle ':prezto:module:git:info:keys' format \
-      prompt '%F{blue}($(coalesce "%b" "%p" "%c")%m%a%d%r%S%u%U$(coalesce "%B%A" "%R")%s)%f'
+      prompt '$(coalesce "%b" "%p" "%c")%m%a%d%r%S%u%U$(coalesce "%B%A" "%R")%s'
 }
 
 prompt_makkhdyn_setup "$@"
