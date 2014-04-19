@@ -63,6 +63,7 @@ function prompt_makkhdyn_setup {
 # Display the difference with remote ('<' and/or '>') or '=' if the branch is
 #   up to date
 function prompt_makkhdyn_setup_git {
+  zstyle ':prezto:module:git:info' verbose 'yes'
   # %s - Special action name (am, merge, rebase).
   zstyle ':prezto:module:git:info:action' format '|%s'
   # %a - Indicator to notify of added files.
