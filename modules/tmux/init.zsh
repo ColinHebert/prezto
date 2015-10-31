@@ -17,6 +17,12 @@ fi
 # Auto Start
 #
 
+if ([[ "$TERM_PROGRAM" = 'iTerm.app' ]] && \
+  zstyle -t ':prezto:module:tmux:iterm' integrate \
+); then
+  _tmux_iterm_integration='-CC'
+fi
+
 if [[ -z "$TMUX" && -z "$EMACS" && -z "$VIM" ]] && ( \
   ( [[ -n "$SSH_TTY" ]] && zstyle -t ':prezto:module:tmux:auto-start' remote ) ||
   ( [[ -z "$SSH_TTY" ]] && zstyle -t ':prezto:module:tmux:auto-start' local ) \
