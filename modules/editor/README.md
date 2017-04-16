@@ -20,6 +20,13 @@ To enable the auto conversion of .... to ../.., add the following to
 
     zstyle ':prezto:module:editor' dot-expansion 'yes'
 
+### PS Context
+
+To enable the prompt context to be set, add the following to your
+*zpreztorc*.
+
+    zstyle ':prezto:module:editor' ps-context 'yes'
+
 Theming
 -------
 
@@ -49,8 +56,7 @@ To indicate when the editor is completing, add the following to your
     zstyle ':prezto:module:editor:info:completing' format '...'
 
 Then add `$editor_info[context]`, where context is *keymap*, *insert*, or
-*overwrite*, to `$PROMPT` or `$RPROMPT` and call `editor-info` in the
-`prompt_name_preexec` hook function.
+*overwrite*, to `$PROMPT` or `$RPROMPT`.
 
 Authors
 -------
@@ -60,4 +66,3 @@ Authors
   - [Sorin Ionescu](https://github.com/sorin-ionescu)
 
 [1]: https://github.com/sorin-ionescu/oh-my-zsh/issues
-

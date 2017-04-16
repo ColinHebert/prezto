@@ -40,3 +40,13 @@ EOF
 EOF
 }
 
+[[ "$the_app" == 'iTerm2' ]] && {
+  osascript 2>/dev/null <<EOF
+    tell application "iTerm2"
+      tell current window
+        create tab with default profile
+        tell current session to write text "${command}"
+      end tell
+    end tell
+EOF
+}

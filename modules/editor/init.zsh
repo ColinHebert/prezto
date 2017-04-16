@@ -28,40 +28,42 @@ WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
 zmodload zsh/terminfo
 typeset -gA key_info
 key_info=(
-  'Control'   '\C-'
-  'Escape'    '\e'
-  'Meta'      '\M-'
-  'Backspace' "^?"
-  'Delete'    "^[[3~"
-  'F1'        "$terminfo[kf1]"
-  'F2'        "$terminfo[kf2]"
-  'F3'        "$terminfo[kf3]"
-  'F4'        "$terminfo[kf4]"
-  'F5'        "$terminfo[kf5]"
-  'F6'        "$terminfo[kf6]"
-  'F7'        "$terminfo[kf7]"
-  'F8'        "$terminfo[kf8]"
-  'F9'        "$terminfo[kf9]"
-  'F10'       "$terminfo[kf10]"
-  'F11'       "$terminfo[kf11]"
-  'F12'       "$terminfo[kf12]"
-  'Insert'    "$terminfo[kich1]"
-  'Home'      "$terminfo[khome]"
-  'PageUp'    "$terminfo[kpp]"
-  'End'       "$terminfo[kend]"
-  'PageDown'  "$terminfo[knp]"
-  'Up'        "$terminfo[kcuu1]"
-  'Left'      "$terminfo[kcub1]"
-  'Down'      "$terminfo[kcud1]"
-  'Right'     "$terminfo[kcuf1]"
-  'BackTab'   "$terminfo[kcbt]"
+  'Control'      '\C-'
+  'ControlLeft'  '\e[1;5D \e[5D \e\e[D \eOd'
+  'ControlRight' '\e[1;5C \e[5C \e\e[C \eOc'
+  'Escape'       '\e'
+  'Meta'         '\M-'
+  'Backspace'    "^?"
+  'Delete'       "^[[3~"
+  'F1'           "$terminfo[kf1]"
+  'F2'           "$terminfo[kf2]"
+  'F3'           "$terminfo[kf3]"
+  'F4'           "$terminfo[kf4]"
+  'F5'           "$terminfo[kf5]"
+  'F6'           "$terminfo[kf6]"
+  'F7'           "$terminfo[kf7]"
+  'F8'           "$terminfo[kf8]"
+  'F9'           "$terminfo[kf9]"
+  'F10'          "$terminfo[kf10]"
+  'F11'          "$terminfo[kf11]"
+  'F12'          "$terminfo[kf12]"
+  'Insert'       "$terminfo[kich1]"
+  'Home'         "$terminfo[khome]"
+  'PageUp'       "$terminfo[kpp]"
+  'End'          "$terminfo[kend]"
+  'PageDown'     "$terminfo[knp]"
+  'Up'           "$terminfo[kcuu1]"
+  'Left'         "$terminfo[kcub1]"
+  'Down'         "$terminfo[kcud1]"
+  'Right'        "$terminfo[kcuf1]"
+  'BackTab'      "$terminfo[kcbt]"
 )
 
 # Set empty $key_info values to an invalid UTF-8 sequence to induce silent
 # bindkey failure.
 for key in "${(k)key_info[@]}"; do
   if [[ -z "$key_info[$key]" ]]; then
-    key_info["$key"]='�'
+    key_info[$key]='�'
   fi
 done
 
@@ -101,11 +103,26 @@ function editor-info {
   fi
 
   unset REPLY
-
-  zle reset-prompt
-  zle -R
+  zle zle-reset-prompt
 }
 zle -N editor-info
+
+# Reset the prompt based on the current context and
+# the ps-context option.
+function zle-reset-prompt {
+  if zstyle -t ':prezto:module:editor' ps-context; then
+    # If we aren't within one of the specified contexts, then we want to reset
+    # the prompt with the appropriate editor_info[keymap] if there is one.
+    if [[ $CONTEXT != (select|cont) ]]; then
+      zle reset-prompt
+      zle -R
+    fi
+  else
+    zle reset-prompt
+    zle -R
+  fi
+}
+zle -N zle-reset-prompt
 
 # Updates editor information when the keymap changes.
 function zle-keymap-select {
@@ -206,10 +223,10 @@ bindkey -d
 # Emacs Key Bindings
 #
 
-for key ("$key_info[Escape]"{B,b}) bindkey -M emacs "$key" emacs-backward-word
-for key ("$key_info[Escape]"{F,f}) bindkey -M emacs "$key" emacs-forward-word
-bindkey -M emacs "$key_info[Escape]$key_info[Left]" emacs-backward-word
-bindkey -M emacs "$key_info[Escape]$key_info[Right]" emacs-forward-word
+for key in "$key_info[Escape]"{B,b} "${(s: :)key_info[ControlLeft]}"
+  bindkey -M emacs "$key" emacs-backward-word
+for key in "$key_info[Escape]"{F,f} "${(s: :)key_info[ControlRight]}"
+  bindkey -M emacs "$key" emacs-forward-word
 
 # Kill to the beginning of the line.
 for key in "$key_info[Escape]"{K,k}
@@ -324,5 +341,4 @@ else
   print "prezto: editor: invalid key bindings: $key_bindings" >&2
 fi
 
-unset key{,map,bindings}
-
+unset key{,map,_bindings}
