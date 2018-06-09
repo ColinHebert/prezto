@@ -23,11 +23,11 @@ if ([[ "$TERM_PROGRAM" = 'iTerm.app' ]] && \
   _tmux_iterm_integration='-CC'
 fi
 
-if [[ -z "$TMUX" && -z "$EMACS" && -z "$VIM" ]] && ( \
+if [[ -z "$TMUX" && -z "$EMACS" && -z "$VIM" && -z "$INSIDE_EMACS" && -z "$VSCODE_PID" ]] && ( \
   ( [[ -n "$SSH_TTY" ]] && zstyle -t ':prezto:module:tmux:auto-start' remote ) ||
   ( [[ -z "$SSH_TTY" ]] && zstyle -t ':prezto:module:tmux:auto-start' local ) \
 ); then
-  tmux_session='#Prezto'
+  zstyle -s ':prezto:module:tmux:session' name tmux_session || tmux_session='prezto'
 
   if ! tmux has-session -t "$tmux_session" 2> /dev/null; then
     # Ensure that tmux server is started.
